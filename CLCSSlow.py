@@ -24,13 +24,13 @@ def LCS(A,B):
 	return arr[m][n]
 
 # Only cut over one of the strings while keeping the other one fixed
-# do not zero/reset the DP array between calls to the LCS method -- do we even need a dp array?
+# do not zero/reset the DP array between calls to the LCS method 
 def CLCSSlow(A,B):
 	m = len(A)
 	n = len(B)
 	arr = []
 	for i in range(0, m):
-		arr.append(LCS(cut(A,i), B)) # WHAT DO WE MAKE k?? 
+		arr.append(LCS(cut(A,i), B)) 
 	return arr[np.argmax(arr)]
 
 def main():
