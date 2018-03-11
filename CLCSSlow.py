@@ -11,13 +11,17 @@ def cut(A,k):
 	return  A[k:n] + A[0:k] #substring(A,k,n) + substring(A,0,k);
 
 # Only cut over one of the strings while keeping the other one fixed
-# do not zero/reset the DP array between calls to the LCS method 
+# do not zero/reset the DP array between calls to the LCS method -- do we even need a dp array?
 def CLCSSlow():
-	for i in range(0, m): # should i start from 0 or 1?
+	dpArr = []
+	max = 0
+	for i in range(0, m):
 		for j in range(0, n):
-		 	LCS(cut(A,i), cut(B,j))
+		 	x = LCS(cut(A,k), cut(B,0)) # WHAT DO WE MAKE k?? 
+		 	if x > max:
+		 		max = x
 
-
+# Returns the length of the LCS
 def LCS(A,B):
 	m = len(A)
 	n = len(B)
@@ -35,7 +39,7 @@ def main():
 	if len(sys.argv) != 1:
 		sys.exit('Usage: `python LCS.py < input`')
 	
-	print(cut("abcd",0))
+	print(LCS("abcb","bdcab"))
 	return
 
 if __name__ == '__main__':
