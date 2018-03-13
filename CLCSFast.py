@@ -8,22 +8,10 @@ import numpy as np
 arr = np.zeros((20,10), dtype=int)
 
 #path is 2 concatenated arrays to represent upper and lower bounds
-p = [[]]
+p = [[[]],[[]]]
 #make path an array of coordinate pairs????
 LCS = []
 
-# Returns the length of the LCS
-# def LCS(A,B):
-# 	m = len(A)
-# 	n = len(B)
-
-# 	for i in range(1,m+1):
-# 		for j in range(1,n+1):
-# 			if A[i-1] == B[j-1]:
-# 				arr[i][j] = arr[i-1][j-1]+1
-# 			else:
-# 				arr[i][j] = max(arr[i-1][j], arr[i][j-1])
-# 	return arr[m][n]
 
 # Compute shortest path of mid (pm) using dynamic programming bounded by pl and pu
 # find most optimal path from (mid,0) to (mid+m, n)
@@ -34,98 +22,107 @@ LCS = []
 
 #path holds index of B string associated with each possible m value
 
-def PathBacktrace():
-	return 0
+def PathBacktrace(mid,m,l,u):
+	if mid == 1:
+		 p[0][1] = [0, 1, 2, 3, 3]
+		 p[1][1] = [0, 1, 2, 2, 3]
+	elif mid == 2:
+	 	p[0][2] = [0, 3, 4, 4, 4]
+	 	p[1][2] = [0, 2, 4, 4, 4]
+	else: 
+	    p[0][3] =  p[1][3]  = [0, 3, 4, 5, 5]
+	
 
-def SingleShortestPath(A,B,mid,pl,pu):
-	m = len(A)
+def SingleShortestPath(A,B,mid, l, u):
+
+	global p
+	global arr
+
+
+	m = len(A)/2
+	print "m",  m
 	n = len(B)
-	print "A double", A
-	path = [0 for i in range(n)]
-	print "pl is", pl
-	print "pu is", pu
 
-	for i in range(1,m/2 +1):
+	print "path"
+	print p
+
+	#set upper and lower path bounds
+	noPath = (l == 0) 
+
+	#1 : lower, 2: upper
+	pl0 = p[0][l]
+	pl1 = p[1][l]
+	pu0= p[0][u]
+	pu1 = p[1][u]
+
+	print "pl", pl
+	print "pu", pu
+	#iterate using dp array, within path bounds
+	print "we are comparing these strings:", A[mid: mid + m], B
+	for i in range(1,m +1):
 		index = mid + i
-		print "char is", A[index]
-		for j in range(1,n-1):
-			if  (index >= pl[j] and index <= pu[j]) or (sum(pl) + sum(pu) == 0):
+		#print "char is", A[index]
+		for j in range(1,n+1):
+			print "index is", index, "upper is", pu[j], "lower is", pl[j]
+			if  (index >= pl[j] and index <= pu[j]) or noPath:
 				if A[index-1] == B[j-1]:
-					print "!!!!! match when these two char:", A[index-1], B[j-1]
+					#print "!!!!! match when these two char:", A[index-1], B[j-1]
 					arr[index][j] = arr[index-1][j-1]+1
 				else:
-					print "NO match when these two char:", A[index-1], B[j-1]
+					#print "NO match when these two char:", A[index-1], B[j-1]
 					arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	print arr
-	#path = PathBacktrace()
 
-	return path
+		#print arr
+		print
+		print
+	print "LCS of this sequence is", arr[m + mid][n]
+	LCS[mid] = arr[m + mid][n]
+	print "LCS is"
+	print LCS
+	path = PathBacktrace(mid,m,l,u)
 
-
-
-	# # print "p is", p
-	# # print "l is", l#, "pl is",  pl
-	# # print "u is", u#, "pu is", pu
-	# pl = p[l]
-	# pu = p[(u - 1)]
-	# print "A mid is", A[mid]
-	# for i in range(1, m + 1): # keep the same should it be mid to mid+m?
-	# 	index =  mid+i -m if mid + i >= m else mid + i
-	# 	print "index is", index
-	# 	print ""
-	# 	for j in range(1,n+1):      #(1,n+1):
-	# 		#if (j <= u) & (j >= l):
-	# 		print "A char is,", A[index -1], "B char is,", B[j -1]
-	# 		if A[index-1] == B[j-1]:
-	# 			print "     match here:", A[index-1], "and", B[j-1]
-	# 			arr[index][j] = arr[index-1][j-1]+1
-	# 		else:
-	# 			print "     no match:", A[index-1], "and", B[j-1]
-	# 			arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	# 			if arr[index][j] == arr[index][j-1]:
-	# 				#path[index] = j-1
-	# 		#path[index] = j
-	# 	#print "path is"
-	# 	#print path
-	# 	print "arr is now"
-	# 	print arr
-	# return path
-	#return arr[mid+m][n] #NEED TO RETURN AN ARRAY NOT A NUMBER
+	return
 
 
 
-def FindShortestPath(A,B,p, l,u):
+
+
+# def FindShortestPath(A,B,p, l,u):
+def FindShortestPath(A,B, l,u):
+	 A_double = A + A
+	 global p
 	 if (u-l <= 1):
 		return
 	 mid = (l+u)/2
 	 print "mid is", mid, "l is", l, "u is", u
-	 p[0][1] = [0, 1, 2, 3, 3]
-	 p[1][1] = [0, 1, 2, 2, 3]
-	 p[0][2] = [0, 3, 4, 4, 4]
-	 p[1][2] = [0, 2, 4, 4, 4]
-	 p[0][3] =  p[1][3]  = [0, 3, 4, 5, 5]
 
-	 print p
-	 #do we need all 4 upper and lower combos
-	 #SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
-	 #FindShortestPath(A,B,p,l,mid)
-	 FindShortestPath(A,B,p,mid,u)
+	 SingleShortestPath(A_double,B,mid, l, u)
+	 #FindShortestPath(A_double,B,l,mid)
+	 FindShortestPath(A,B,mid,u)
 
 
 def CLCSFast(A,B):
+	#define global variables
+	global p
+	global LCS
+
+	#lengths of A and B
 	m = len(A)
 	n = len(B)
-	#need to figure out if + 1 or not
 
-	path_l = path_u = np.zeros((m + 1,n+1), dtype=int)
-	#path_l = path_u = [[0 for i in range(n+ 1)] for j in range(m)] # needs to be a gloabl variable
+	#initialize path array
+	path_l = path_u = np.zeros((m + 1,n+1), dtype=int)	
 	p = [path_l, path_u]
-	FindShortestPath(A,B,p,0,m)
-	# Find the shortest pi from p
-	min = p[0]
+
+	#initialize LCS array
+	LCS = np.zeros(m + 1, dtype=int)
+
+	#FindShortestPath(A,B,p,0,m)
+	FindShortestPath(A,B,0,m)
+	return max(LCS)
 
 
 def main():
-	print CLCSFast("AFG", "ABCD")
+	print CLCSFast("ABG", "ABCD")
 if __name__ == '__main__':
 	main()
