@@ -8,7 +8,7 @@ import numpy as np
 arr = np.zeros((20,10), dtype=int)
 
 #path is 2 concatenated arrays to represent upper and lower bounds
-p = [[[]],[[]]]
+p = [[]]
 #make path an array of coordinate pairs????
 LCS = []
 
@@ -99,9 +99,16 @@ def FindShortestPath(A,B,p, l,u):
 		return
 	 mid = (l+u)/2
 	 print "mid is", mid, "l is", l, "u is", u
+	 p[0][1] = [0, 1, 2, 3, 3]
+	 p[1][1] = [0, 1, 2, 2, 3]
+	 p[0][2] = [0, 3, 4, 4, 4]
+	 p[1][2] = [0, 2, 4, 4, 4]
+	 p[0][3] =  p[1][3]  = [0, 3, 4, 5, 5]
+
+	 print p
 	 #do we need all 4 upper and lower combos
-	 p[mid] = SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
-	 FindShortestPath(A,B,p,l,mid)
+	 #SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
+	 #FindShortestPath(A,B,p,l,mid)
 	 FindShortestPath(A,B,p,mid,u)
 
 
@@ -109,7 +116,9 @@ def CLCSFast(A,B):
 	m = len(A)
 	n = len(B)
 	#need to figure out if + 1 or not
-	path_l = path_u = [[0 for i in range(m)] for j in range(n)] # needs to be a gloabl variable
+
+	path_l = path_u = np.zeros((m + 1,n+1), dtype=int)
+	#path_l = path_u = [[0 for i in range(n+ 1)] for j in range(m)] # needs to be a gloabl variable
 	p = [path_l, path_u]
 	FindShortestPath(A,B,p,0,m)
 	# Find the shortest pi from p
