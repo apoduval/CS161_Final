@@ -1,4 +1,4 @@
-#CLCSFast 
+#CLCSFast
 import sys
 import numpy as np
 
@@ -9,6 +9,7 @@ arr = np.zeros((20,10), dtype=int)
 
 #path is 2 concatenated arrays to represent upper and lower bounds
 p = [[[]],[[]]]
+#make path an array of coordinate pairs????
 LCS = []
 
 # Returns the length of the LCS
@@ -27,30 +28,28 @@ LCS = []
 # Compute shortest path of mid (pm) using dynamic programming bounded by pl and pu
 # find most optimal path from (mid,0) to (mid+m, n)
 # Store an array of paths then choose the shortest one
-# Every time you look at a node check if it is in the bounds 
-# Basically LCS but when we hit a bound use the bound path 
-# arr[i][j] returns the length of the LCS 
+# Every time you look at a node check if it is in the bounds
+# Basically LCS but when we hit a bound use the bound path
+# arr[i][j] returns the length of the LCS
 
 #path holds index of B string associated with each possible m value
 
 def PathBacktrace():
 	return 0
 
-
-
-
-
 def SingleShortestPath(A,B,mid,pl,pu):
 	m = len(A)
 	n = len(B)
 	print "A double", A
 	path = [0 for i in range(n)]
+	print "pl is", pl
+	print "pu is", pu
 
 	for i in range(1,m/2 +1):
-		index = mid + i 
+		index = mid + i
 		print "char is", A[index]
-		for j in range(1,n+1):
-			if (sum(pl) + sum(pu) != 0) or (i >= pl[j] and i <= pu[j]):
+		for j in range(1,n-1):
+			if  (index >= pl[j] and index <= pu[j]) or (sum(pl) + sum(pu) == 0):
 				if A[index-1] == B[j-1]:
 					print "!!!!! match when these two char:", A[index-1], B[j-1]
 					arr[index][j] = arr[index-1][j-1]+1
@@ -90,8 +89,8 @@ def SingleShortestPath(A,B,mid,pl,pu):
 	# 	#print path
 	# 	print "arr is now"
 	# 	print arr
-	# return path		
-	#return arr[mid+m][n] #NEED TO RETURN AN ARRAY NOT A NUMBER 
+	# return path
+	#return arr[mid+m][n] #NEED TO RETURN AN ARRAY NOT A NUMBER
 
 
 
@@ -102,9 +101,9 @@ def FindShortestPath(A,B,p, l,u):
 	 print "mid is", mid, "l is", l, "u is", u
 	 #do we need all 4 upper and lower combos
 	 p[mid] = SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
-	 #FindShortestPath(A,B,p,l,mid)
-	 #FindShortestPath(A,B,p,mid,u)
-	 
+	 FindShortestPath(A,B,p,l,mid)
+	 FindShortestPath(A,B,p,mid,u)
+
 
 def CLCSFast(A,B):
 	m = len(A)
