@@ -83,6 +83,10 @@ def SingleShortestPath(A,B,mid, l, u):
 	print "m",  m
 	n = len(B)
 
+	print "A double", A
+	path = [0 for i in range(n)]
+
+
 	print "path"
 	print p
 
@@ -96,9 +100,9 @@ def SingleShortestPath(A,B,mid, l, u):
 	pu1 = p[1][u]
 
 	print "pl0", pl0
-	#print "pl1", pl1
+	print "pl1", pl1
 	print "pu0", pu0
-	#print "pu1", pu1
+	print "pu1", pu1
 
 	#iterate using dp array, within path bounds
 	print "we are comparing these strings:", A[mid: mid + m], B
@@ -145,6 +149,12 @@ def FindShortestPath(A,B, l,u):
 	 SingleShortestPath(A_double,B,mid,l,u)
 	 FindShortestPath(A,B,l,mid)
 	 FindShortestPath(A,B,mid,u)
+
+	 #do we need all 4 upper and lower combos
+	 SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
+	 FindShortestPath(A,B,p,l,mid)
+	 FindShortestPath(A,B,p,mid,u)
+
 
 
 def CLCSFast(A,B):
