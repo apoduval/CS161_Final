@@ -29,12 +29,12 @@ def PathBacktrace(A,B,mid,l,u):
 		#if we are in the first row, go left
 		elif i == 0 and j != 0: 
 			path[i][0] = [j-1]
-			j -= 1
+			j = j-1
 
 		#if we are in the first col, go up
-		elif i = 0 and j != 0: 
+		elif i == 0 and j != 0: 
 			path[i-1] = [j][j]
-			i -= 1
+			i = i-1
 
 		elif i >= 1 and j >= 1:
 			diag = arr[i - 1][j - 1]
@@ -42,16 +42,16 @@ def PathBacktrace(A,B,mid,l,u):
 			top = arr[i][j-1]
 			if A[i] == B[j]:
 				path[i-1] = [j-1][j-1]
-				i -= 1
-				j -= 1
+				i = i - 1
+				j = j - 1
 			# If not same, then find the larger of two and
 	        # go in the direction of larger value
 	        elif left >= top:
 	        	path[i][0] = [j-1]
-	            j-=1
+	            j= j-1
 	        else:
 	        	path[i-1] = [j][j]
-	            i-=1	
+	            i=i-1	
 
 	return path
 
