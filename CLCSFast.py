@@ -28,10 +28,10 @@ def LCS(A,B, start):
 			else:
 				arr[index][j] = max(arr[index-1][j], arr[index][j-1])
 
-	return PathBacktrace(A,B, start)
+	return PathBacktrace(A,B, start, -1, -1)
 
 #important note, we would only need mid,l,u if we wanted to compare to path
-def PathBacktrace(A,B, mid):
+def PathBacktrace(A,B, mid, l, u):
 	global maxLCS
 	#print arr
 	#print "string A", A, "string B", B
@@ -42,9 +42,18 @@ def PathBacktrace(A,B, mid):
 	j = len(B)
 
 
+	#initialize boolean such that we check bounds even if top/bottom
+	if l == -1 and u == -1:
+		checkTop = 1
+		checkLeft = 1
+	else: 
+		checkTop = 0
+		checkLeft = 0
+
 	path = [[0,0] for x in range(m+ 1)]
 	path[index] = [j,j]
 
+	#set boolean variables 
 
 	#SET MAX VALUE
 	curr = arr[i][j]
@@ -62,14 +71,20 @@ def PathBacktrace(A,B, mid):
 		left = arr[i][j-1]
 		top = arr[i-1][j] 
 
+		if checkTop == 0:
+			checkTop = j <= path[l][1]
+
+		if checkLeft == 0:
+			checkLeft = (j >= path[l][0])
+
 		#first check top
-		if curr == top:
+		if curr == top and checkTop:
 			path[index-1] = [j,j]
 			index = index - 1
 			i= i-1
 
 		#next check left
-		elif curr == left:
+		elif curr == left and checkLeft:
 			path[index][0] = j-1
 			j=j-1
 

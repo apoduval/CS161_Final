@@ -13,19 +13,15 @@ def LCS(A,B):
 				arr[i][j] = arr[i-1][j-1]+1
 			else:
 				arr[i][j] = max(arr[i-1][j], arr[i][j-1])
-
-	
-	print "arr is"
-	print arr
 	return arr[m][n]
 
 def main():
 	if len(sys.argv) != 1:
 		sys.exit('Usage: `python LCS.py < input`')
-	print LCS("DABG","ABCD")
-	# for l in sys.stdin:
-	# 	A,B = l.split()
-	# 	print LCS(A,B)
+		
+	for l in sys.stdin:
+		A,B = l.split()
+		print LCS(A,B)
 	return
 
 if __name__ == '__main__':
