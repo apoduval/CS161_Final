@@ -2,8 +2,8 @@
 import sys
 import numpy as np
 
-
-arr = np.zeros((100,100), dtype=int)
+arraySize = 6
+arr = np.zeros((2*arraySize,arraySize), dtype=int)
 
 p = [[[]]]
 
@@ -18,7 +18,7 @@ def LCS(A,B, start):
 	if start > 0: start = start - 1
 	
 	#to zero the array row before so that LCS algorithm works
-	arr[start] = np.zeros(100, dtype=int)
+	arr[start] = np.zeros(arraySize, dtype=int)
 
 	for i in range(1,m+1):
 		index = i + start
@@ -57,6 +57,7 @@ def PathBacktrace(A,B, mid, l, u):
 
 	#SET MAX VALUE
 	curr = arr[i][j]
+	print "the clcs is: ", curr
 	if curr > maxLCS:
 		maxLCS = curr
 
@@ -65,7 +66,6 @@ def PathBacktrace(A,B, mid, l, u):
 
 		if i == 0 or j == 0:
 			break
-
 		curr = arr[i][j]
 		diag = arr[i - 1][j - 1]
 		left = arr[i][j-1]
@@ -95,6 +95,7 @@ def PathBacktrace(A,B, mid, l, u):
 			i = i - 1
 			j = j - 1
 
+
 	print "the path we created is:"
 	print path
 	return path
@@ -115,7 +116,7 @@ def SingleShortestPath(A,B,mid,l,u):
 	A_str_curr = A[mid:mid+m]
 	print "Strings we are comparing:", A_str_curr, B
 
-	arr[mid - 1] = np.zeros(100, dtype=int)
+	arr[mid - 1] = np.zeros(arraySize, dtype=int)
 
 	for i in range(1,m +1):
 		#print "mid is: ", mid, "l is:", l, "u is:", u
