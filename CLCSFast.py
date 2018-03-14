@@ -57,7 +57,7 @@ def PathBacktrace(A,B,mid,l,u):
 
 
 
-def SingleShortestPath(A,B,mid, l, u):
+def SingleShortestPath(A,B,mid,l,u):
 
 	global p
 	global arr
@@ -65,34 +65,29 @@ def SingleShortestPath(A,B,mid, l, u):
 	m = len(A)/2
 	n = len(B)
 
-	path = [0 for i in range(n)]
-
 	for i in range(1,m +1):
+		plRight = p[l][i][1] + 1 
+		puLeft = p[u][i][0] + 1
+		jrange = (1,n)
 		index = mid + i
-		#print "char is", A[index]
-		for j in range(1,n+1):
-			#print "index is", index, "upper is", pu[j], "lower is", pl[j]
-			#NOTE: BELOW WORKS FINE AND IS INDEED FASTER--GETS WEIRD WITH UPPER (original line
-			# is the one under it)--Liv
-			if  (index >= pl0[j]) or noPath:
-			#if  (index >= pl m[j] and index <= pu[j]) or noPath:
-				if A[index-1] == B[j-1]:
-					#print "!!!!! match when these two char:", A[index-1], B[j-1]
-					arr[index][j] = arr[index-1][j-1]+1
-				else:
-					#print "NO match when these two char:", A[index-1], B[j-1]
-					arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	#print "arr"
-	#print arr
-	# print
-	# print
-	print "LCS of this sequence is", arr[m + mid][n]
-	LCS[mid] = arr[m + mid][n]
-	#print "LCS is"
-	#print LCS
-	path = PathBacktrace(mid,m,l,u)
 
-	return
+		if i <= u and i >= l:
+			jrange = (1,plRight)
+		elif i > u and i > m:
+			jrange = (puLeft,n)
+		elif i > u:
+			jrange = (puLeft, plRight)
+
+		for j in jrange:
+			if A[index-1] == B[j-1]: # If we have a match 
+				arr[index][j] = arr[index-1][j-1]+1
+			else:
+				arr[index][j] = max(arr[index-1][j], arr[index][j-1])
+	
+	LCS = arr[m + mid][n]
+	if LCS > maxLCS:
+		maxLCS = LCS
+	return PathBacktrace(A,B,mid,l,u)
 
 # def FindShortestPath(A,B,p, l,u):
 def FindShortestPath(A,B, l,u):
@@ -101,7 +96,7 @@ def FindShortestPath(A,B, l,u):
 		return
 	 mid = (l+u)/2
 
-	 SingleShortestPath(A_double,B,mid,l,u)
+	 p[mid] = SingleShortestPath(A_double,B,mid,l,u)
 	 FindShortestPath(A,B,l,mid)
 	 FindShortestPath(A,B,mid,u)
 
@@ -135,10 +130,12 @@ def CLCSFast(A,B):
 	n = len(B)
 
 	#initialize path array
-	p = np.zeros(m,m, dtype=[]) #NOT SURE ABOUT DTYPE
+
+	p = np.zeros(m,m, dtype= array) #NOT SURE ABOUT DTYPE
 	ComputeP0(A,B)
 	#ComputePm(A,B)
 	#FindShortestPath(A,B,0,m) 
+
 	return maxLCS
 
 
