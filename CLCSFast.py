@@ -63,13 +63,13 @@ def SingleShortestPath(A,B,mid,l,u):
 
 
 	for i in range(1,m +1):
-		plRight = p[l][i][1]
-		puLeft = p[u][i][0]
-		jrange = (0,n)
+		plRight = p[l][i][1] + 1 
+		puLeft = p[u][i][0] + 1
+		jrange = (1,n)
 		index = mid + i
 
 		if i <= u and i >= l:
-			jrange = (0,plRight)
+			jrange = (1,plRight)
 		elif i > u and i > m:
 			jrange = (puLeft,n)
 		elif i > u:
@@ -115,7 +115,7 @@ def CLCSFast(A,B):
 	n = len(B)
 
 	#initialize path array
-	p = np.zeros(m,m, dtype=[]) #NOT SURE ABOUT DTYPE
+	p = np.zeros(m,m, dtype= array) #NOT SURE ABOUT DTYPE
 
 	FindShortestPath(A,B,0,m) 
 	return maxLCS
