@@ -59,9 +59,6 @@ def SingleShortestPath(A,B,mid,l,u):
 	m = len(A)/2
 	n = len(B)
 
-	#path = [0 for i in range(n)]
-
-
 	for i in range(1,m +1):
 		plRight = p[l][i][1] + 1 
 		puLeft = p[u][i][0] + 1
@@ -80,11 +77,11 @@ def SingleShortestPath(A,B,mid,l,u):
 				arr[index][j] = arr[index-1][j-1]+1
 			else:
 				arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	print "LCS of this sequence is", arr[m + mid][n]
-
-	path = PathBacktrace(A,B,mid,l,u)
-
-return
+	
+	LCS = arr[m + mid][n]
+	if LCS > maxLCS:
+		maxLCS = LCS
+	return PathBacktrace(A,B,mid,l,u)
 
 
 
@@ -97,7 +94,7 @@ def FindShortestPath(A,B, l,u):
 		return
 	 mid = (l+u)/2
 
-	 SingleShortestPath(A_double,B,mid,l,u)
+	 p[mid] = SingleShortestPath(A_double,B,mid,l,u)
 	 FindShortestPath(A,B,l,mid)
 	 FindShortestPath(A,B,mid,u)
 
