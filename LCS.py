@@ -13,6 +13,8 @@ def LCS(A,B):
 				arr[i][j] = arr[i-1][j-1]+1
 			else:
 				arr[i][j] = max(arr[i-1][j], arr[i][j-1])
+
+	
 	print "arr is"
 	print arr
 	return arr[m][n]

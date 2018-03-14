@@ -41,9 +41,14 @@ LCS = []
 def PathBacktrace(mid,m,l,u):
 	#note: need to pass in arr
 	#for (int i = m; i > 0; i++) :
+		#for j =n to 
+
+#NOte if i =0 or if j = 0 then move up or left (two different cases) 
+#if they are both >= 1 then if you go up do i=i-1, left: j = j-1, diagnol subtract both
+		#use while loop 
 	#  cur = arr[i][j]
 	#  diag = arr[i - 1][j - 1]
-	#  if (diag == cur - 1) && A[diag] == B[cur]:
+	#  if (diag == cur - 1) && A[i] = B[j]           A[diag] == B[cur]:
 	#	#if the diagonal is one less and the char is the same
 	#    path += diag
 	#	 i - 1; j - 1;
@@ -54,10 +59,10 @@ def PathBacktrace(mid,m,l,u):
 	#         #can go left or top
 	#         path += left;
 	#		  i - 1;
-	#	   if (left = cur):
+	#	   elif (left = cur):
 	#		path += left;
 	#		i - 1;
-	#		if (top = cur):
+	#		elif (top = cur):
 	#		path += top;
 	#		j - 1;
 
@@ -83,26 +88,28 @@ def SingleShortestPath(A,B,mid, l, u):
 	print "m",  m
 	n = len(B)
 
-	print "A double", A
+	#print "A double", A
 	path = [0 for i in range(n)]
 
 
-	print "path"
-	print p
+	#print "path"
+	#print p
 
 	#set upper and lower path bounds
 	noPath = (l == 0)
 
 	#0 : lower, 1: upper
-	pl0 = p[0][l]
+	pl0 = p[0][l] # The array containing the lower bound of p
 	pl1 = p[1][l]
 	pu0= p[0][u]
 	pu1 = p[1][u]
+	print "LOWER:", p[0][l], "and", p[1][l]
+	print "UPPER", p[1][u], "and", p[0][u]
 
-	print "pl0", pl0
-	print "pl1", pl1
-	print "pu0", pu0
-	print "pu1", pu1
+	# print "pl0", pl0
+	# print "pl1", pl1
+	# print "pu0", pu0
+	# print "pu1", pu1
 
 	#iterate using dp array, within path bounds
 	print "we are comparing these strings:", A[mid: mid + m], B
@@ -121,14 +128,14 @@ def SingleShortestPath(A,B,mid, l, u):
 				else:
 					#print "NO match when these two char:", A[index-1], B[j-1]
 					arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	print "arr"
-	print arr
-	print
-	print
+	#print "arr"
+	#print arr
+	# print
+	# print
 	print "LCS of this sequence is", arr[m + mid][n]
 	LCS[mid] = arr[m + mid][n]
-	print "LCS is"
-	print LCS
+	#print "LCS is"
+	#print LCS
 	path = PathBacktrace(mid,m,l,u)
 
 	return
@@ -139,11 +146,15 @@ def SingleShortestPath(A,B,mid, l, u):
 
 # def FindShortestPath(A,B,p, l,u):
 def FindShortestPath(A,B, l,u):
+	 print 
+	 print
 	 A_double = A + A
 	 global p
-	 if (u-l <= 1):
+	 if (u-l <= 1): 
 		return
 	 mid = (l+u)/2
+	 p[l]
+	 p[u]
 	 print "mid is", mid, "l is", l, "u is", u
 
 	 SingleShortestPath(A_double,B,mid,l,u)
@@ -151,9 +162,9 @@ def FindShortestPath(A,B, l,u):
 	 FindShortestPath(A,B,mid,u)
 
 	 #do we need all 4 upper and lower combos
-	 SingleShortestPath(A + A,B,mid,p[0][l],p[1][u])
-	 FindShortestPath(A,B,p,l,mid)
-	 FindShortestPath(A,B,p,mid,u)
+	 #SingleShortestPath(A + A,B,mid, l , u) # p[0][l],p[1][u])
+	 #FindShortestPath(A,B,l,mid)
+	 #FindShortestPath(A,B,mid,u)
 
 
 
@@ -174,11 +185,11 @@ def CLCSFast(A,B):
 	LCS = np.zeros(m + 1, dtype=int)
 
 	#FindShortestPath(A,B,p,0,m)
-	FindShortestPath(A,B,0,m)
+	FindShortestPath(A,B,0,m) # should this be m-1 since we do not actually have a bound at index m 
 	return max(LCS)
 
 
 def main():
-	print CLCSFast("ABG", "ABCD")
+	print CLCSFast("ABGD", "ABCD")
 if __name__ == '__main__':
 	main()
