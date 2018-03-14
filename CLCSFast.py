@@ -3,7 +3,7 @@ import sys
 import numpy as np
 
 
-arr = np.zeros((10,10), dtype=int)
+arr = np.zeros((100,100), dtype=int)
 
 p = [[[]]]
 
@@ -18,7 +18,7 @@ def LCS(A,B, start):
 	if start > 0: start = start - 1
 	
 	#to zero the array row before so that LCS algorithm works
-	arr[start] = np.zeros(10, dtype=int)
+	arr[start] = np.zeros(100, dtype=int)
 
 	for i in range(1,m+1):
 		index = i + start
@@ -111,17 +111,18 @@ def SingleShortestPath(A,B,mid,l,u):
 
 	m = len(A)/2
 	n = len(B)
+	print "This is the A string", A
 	A_str_curr = A[mid:mid+m]
 	print "Strings we are comparing:", A_str_curr, B
 
-	arr[mid - 1] = np.zeros(10, dtype=int)
+	arr[mid - 1] = np.zeros(100, dtype=int)
 
 	for i in range(1,m +1):
-		print "mid is: ", mid, "l is:", l, "u is:", u
+		#print "mid is: ", mid, "l is:", l, "u is:", u
 		plRight = p[l][i][1] 
 		puLeft = p[u][i][0] 
-		print "plRight:", plRight
-		print "puLeft", puLeft
+		#print "plRight:", plRight
+		#print "puLeft", puLeft
 
 		jrange = (1,n)
 		index = mid + i
@@ -146,11 +147,11 @@ def SingleShortestPath(A,B,mid,l,u):
 
 	print
 	print
-	print "array when we do our method AT P", mid
+	print "array when we do our method AT mid =", mid, A[mid], "l is:", l, A[l], "u is:", u, A[u]
 	print arr
 	print
 
-	return PathBacktrace(A_,B, mid)
+	return PathBacktrace(A,B, mid)
 
 # def FindShortestPath(A,B,p, l,u):
 def FindShortestPath(A,B, l,u):
@@ -188,19 +189,24 @@ def CLCSFast(A,B):
 
 	#initialize P0 and PM to hold LCS values
 	ComputeP0(A+A,B)
-	print "the total path array is:"
-	print p
+	# print "the total path array is:"
+	# print p
 
 	ComputePm(A+A,B)
-	print "the total path array is:"
-	print p
+	# print "the total path array is:"
+	# print p
 
-	#FindShortestPath(A+A,B,1,m)
+	FindShortestPath(A,B,1,m)
 	return maxLCS
 
 
 def main():
-	print CLCSFast("ABGD", "ABCD")
+	#print CLCSFast("ABGD", "ABCD")
+	print CLCSFast("BBAA", "ABABB")
+	#print CLCSFast("C","CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD")
+	#print CLCSFast("EBADAEEABBBCEDE", "ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC")
+	#print CLCSFast("ACBBBCDCEDBADBBEABBEDAEADEBAEB", "AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC")
+
 
 if __name__ == '__main__':
 	main()
