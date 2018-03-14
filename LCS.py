@@ -22,7 +22,7 @@ def LCS(A,B):
 def main():
 	if len(sys.argv) != 1:
 		sys.exit('Usage: `python LCS.py < input`')
-	print LCS("ABGD","ABCD")
+	print LCS("DABG","ABCD")
 	# for l in sys.stdin:
 	# 	A,B = l.split()
 	# 	print LCS(A,B)
