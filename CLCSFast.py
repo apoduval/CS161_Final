@@ -3,102 +3,12 @@ import sys
 import numpy as np
 
 
-arr = np.zeros((2000,4000), dtype=int)
+arr = np.zeros((10,10), dtype=int)
 
 p = [[[]]]
 
 maxLCS = -1
 
-
-#important note, we would only need mid,l,u if we wanted to compare to path
-def PathBacktrace(A,B,mid,l,u):
-	i = len(A)
-	j = len(B)
-
-	path = [[0,0] for x in range(m + 1)]
-
-	path[i] =  [j,j]
-	print "path is", path
-	while i>=0 or j >=0: 
-		cur = arr[i][j]
-		#edge cases
-		#if we are in [0,0], we exit the while loop
-		if i == 0 and j == 0:
-			break
-
-		#if we are in the first row, go left
-		elif i == 0 and j != 0: 
-			path[i][0] = [j-1]
-			j=j-1
-
-		#if we are in the first col, go up
-		elif i == 0 and j != 0: 
-			path[i-1] = [j][j]
-			i= i-1
-
-		elif i >= 1 and j >= 1:
-			diag = arr[i - 1][j - 1]
-			left = arr[i - 1][j]
-			top = arr[i][j-1]
-			if A[i] == B[j]:
-				path[i-1] = [j-1][j-1]
-				i = i - 1
-				j = j - 1
-			# If not same, then find the larger of two and
-			# go in the direction of larger value
-			elif left >= top:
-				path[i][0] = [j-1]
-				j=j-1
-			else:
-				path[i-1] = [j][j]
-				i=i-1	
-
-	return path
-
-
-
-def SingleShortestPath(A,B,mid,l,u):
-
-	global p
-	global arr
-
-	m = len(A)/2
-	n = len(B)
-
-	for i in range(1,m +1):
-		plRight = p[l][i][1] + 1 
-		puLeft = p[u][i][0] + 1
-		jrange = (1,n)
-		index = mid + i
-
-		if i <= u and i >= l:
-			jrange = (1,plRight)
-		elif i > u and i > m:
-			jrange = (puLeft,n)
-		elif i > u:
-			jrange = (puLeft, plRight)
-
-		for j in jrange:
-			if A[index-1] == B[j-1]: # If we have a match 
-				arr[index][j] = arr[index-1][j-1]+1
-			else:
-				arr[index][j] = max(arr[index-1][j], arr[index][j-1])
-	
-	LCS = arr[m + mid][n]
-	if LCS > maxLCS:
-		maxLCS = LCS
-	return PathBacktrace(A,B,mid,l,u)
-
-# def FindShortestPath(A,B,p, l,u):
-def FindShortestPath(A,B, l,u):
-	 A_double = A + A
-	 if (u-l <= 1): 
-		return
-	 mid = (l+u)/2
-
-	 p[mid] = SingleShortestPath(A_double,B,mid,l,u)
-	 FindShortestPath(A,B,l,mid)
-	 FindShortestPath(A,B,mid,u)
 
 def LCS(A,B):
 	m = len(A)
@@ -113,12 +23,134 @@ def LCS(A,B):
 
 	return PathBacktrace(A,B)
 
+#important note, we would only need mid,l,u if we wanted to compare to path
+def PathBacktrace(A,B):
+	#print arr
+	#print "string A", A, "string B", B
+	i = len(A)
+	j = len(B)
+
+	path = [[0,0] for x in range(i + 1)]
+
+	path[i] =  [j,j]
+	while i>=0 or j >=0: 
+		#print "i is", i, "j is", j, "which are char", A[i-1], B[j-1]
+		#print "path is", path
+		cur = arr[i][j]
+		#edge cases
+		#if we are in [0,0], we exit the while loop
+		if i == 0 and j == 0:
+			break
+
+		#if we are in the first row, go left
+		elif i == 0 and j != 0: 
+			#print "We are in first row, need to go left"
+			path[i][0] = j-1
+			j=j-1
+
+		#if we are in the first col, go up
+		elif j == 0 and i != 0: 
+			#print "We are in first col, need to go up"
+			path[i-1] = [j,j]
+			i= i-1
+
+		else: #i >= 1 and j >= 1:
+			diag = arr[i - 1][j - 1]
+			left = arr[i][j-1]
+			top = arr[i-1][j]
+			if (diag == cur - 1) and (A[i-1] == B[j-1]) :
+				#print "MATCH!" #we are doing a diagonal", A[i-1], B[j-1]
+				path[i-1] = [j-1,j-1]
+				i = i - 1
+				j = j - 1
+			# If not same, then find the larger of two and
+			# go in the direction of larger value
+			elif left >= top:
+				#print "No match. we are going left"
+				path[i][0] = j-1
+				j=j-1
+			else:
+				#print "No match. we are going up"
+				path[i-1] = [j,j]
+				i=i-1	
+
+	return path
+
+
+
+def SingleShortestPath(A,B,mid,l,u):
+	global maxLCS
+	print
+	print
+	print
+	print
+	print "ENTERING SSP"
+
+	global p
+	global arr
+
+	#temporarily fix arr 
+
+	m = len(A)/2
+	n = len(B)		
+	A_str_curr = A[mid:mid+m]
+	print "STrings we are comparing:", A_str_curr, B
+
+
+	for i in range(1,m +1):
+		plRight = p[l][i][1] 
+		puLeft = p[u][i][0] 
+
+		jrange = (1,n)
+		index = mid + i
+
+		if index <= u and index >= l:
+			jrange = (0,plRight)
+		elif index > u and index > m:
+			jrange = (puLeft,n)
+		elif index > u:
+			jrange = (puLeft, plRight)
+		print "jrange is", jrange
+		for j in jrange:
+			#print "A", A[index -1]
+			#print "B", B[j-1]
+			if A[index-1] == B[j-1]: # If we have a match 
+				arr[index][j] = arr[index-1][j-1]+1
+			else:
+				arr[index][j] = max(arr[index-1][j], arr[index][j-1])
+	
+	print "array when we do our method"
+	print arr
+	print
+	print arr
+
+	#LCS = arr[m + mid][n]
+	#print "LCS value is"
+
+	#if LCS > maxLCS:
+	#	maxLCS = LCS
+	return PathBacktrace(A,B)
+
+# def FindShortestPath(A,B,p, l,u):
+def FindShortestPath(A,B, l,u):
+	 A_double = A + A
+	 if (u-l <= 1): 
+		return
+	 mid = (l+u)/2
+
+	 p[mid] = SingleShortestPath(A_double,B,mid,l,u)
+	 FindShortestPath(A,B,l,mid)
+	 FindShortestPath(A,B,mid,u)
+
+
+
 def ComputeP0(A,B):
 	p[0] = LCS(A,B)
 
 def ComputePm(A,B):
 	m = len(A)
-	p[m] = LCS(A[m] + A[:m-1],B)
+	#print "first char", A[m-1]
+	p[m] = LCS(A[m-1] + A[0:m-1],B)
 
 def CLCSFast(A,B):
 	#define global variables
@@ -131,10 +163,15 @@ def CLCSFast(A,B):
 
 	#initialize path array
 
-	p = np.zeros((m,m,2), dtype=int) #NOT SURE ABOUT DTYPE
+	p = np.zeros((m+1,m+1,2), dtype=int) #NOT SURE ABOUT DTYPE
+	LCS("GDAB", "ABCD")
+	print "LCS of GDAB is"
+	print arr
 	ComputeP0(A,B)
-	#ComputePm(A,B)
-	#FindShortestPath(A,B,0,m) 
+	ComputePm(A,B)
+	#print "final path with 0 and m"
+	#print p
+	FindShortestPath(A,B,0,m) 
 
 	return maxLCS
 
