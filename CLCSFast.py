@@ -73,7 +73,6 @@ def PathBacktrace(A,B):
 				#print "No match. we are going up"
 				path[i-1] = [j,j]
 				i=i-1	
-
 	return path
 
 
@@ -105,7 +104,7 @@ def SingleShortestPath(A,B,mid,l,u):
 		index = mid + i
 
 		if index <= u and index >= l:
-			jrange = (0,plRight)
+			jrange = (1,plRight) # jrange needs to start from 1 since we are subtracting 
 		elif index > u and index > m:
 			jrange = (puLeft,n)
 		elif index > u:
