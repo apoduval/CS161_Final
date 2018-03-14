@@ -151,7 +151,7 @@ def SingleShortestPath(A,B,mid,l,u):
 	print arr
 	print
 
-	return PathBacktrace(A,B, mid)
+	return PathBacktrace(A,B, mid, l, u)
 
 # def FindShortestPath(A,B,p, l,u):
 def FindShortestPath(A,B, l,u):
@@ -167,11 +167,13 @@ def FindShortestPath(A,B, l,u):
 
 
 def ComputeP0(A,B):
+	print "Strings we are comparing:", A[0:len(A)/2], B
 	p[0] = LCS(A,B,0)
 
 def ComputePm(A,B):
 	m = len(A)/2
 	#print "first char", A[m-1]
+	print "Strings we are comparing:", A[m:], B
 	p[m] = LCS(A,B,m)
 
 def CLCSFast(A,B):
