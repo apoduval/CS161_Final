@@ -262,7 +262,8 @@ def CLCSFast(A,B):
 	n = len(B)
 
 	#initialize path array
-	p = np.zeros((m+1,m+1,2), dtype=int) #NOT SURE ABOUT DTYPE
+	p = np.zeros((m+1,m+1,2), dtype=int) 
+	arr = np.zeros((2*arraySize,arraySize), dtype=int)
 
 	#initialize P0 and PM to hold LCS values
 	ComputeP0_Pm(A,B)
@@ -278,6 +279,7 @@ def main():
 	A = "ABCDE" 
 	B = "CDKELEHSL"
 	print "for strings:", A, B, "the answer is", CLCSFast(A, B)
+
 	#print CLCSFast("C","CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD")
 	#print CLCSFast("EBADAEEABBBCEDE", "ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC")
 	#print CLCSFast("ACBBBCDCEDBADBBEABBEDAEADEBAEB", "AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC")

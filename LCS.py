@@ -23,7 +23,7 @@ def main():
 	# for l in sys.stdin:
 	# 	A,B = l.split()
 	# 	print LCS(A,B)
-	print LCS("GDAB", "ABCD")
+	print LCS("BCDEA", "CDKELEHSL")
 	return
 
 if __name__ == '__main__':
