@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 
-arr = np.zeros((10, 10), dtype=int)
+arr = np.zeros((10, 30), dtype=int)
 
 def LCS(A,B):
 	m = len(A)
@@ -23,7 +23,10 @@ def main():
 	# for l in sys.stdin:
 	# 	A,B = l.split()
 	# 	print LCS(A,B)
-	print LCS("GDAB", "ABCD")
+	A = "GDAB"
+	B = "ABCD"
+	print A,B
+	print LCS(A, B)
 	return
 
 if __name__ == '__main__':
