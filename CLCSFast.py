@@ -22,13 +22,12 @@ def LCS(A,B):
 			else:
 				arr[i][j] = max(arr[i-1][j], arr[i][j-1])
 
-
-	print arr
 	return PathBacktrace(A + A,B, 0, -1, -1)
 
 #important note, we would only need mid,l,u if we wanted to compare to path
 def PathBacktrace(A,B, mid, l, u):
 	global maxLCS
+	print "enter backtrace"
 	#print arr
 	#print "string A", A, "string B", B
 	m = len(A)/2
@@ -53,7 +52,7 @@ def PathBacktrace(A,B, mid, l, u):
 
 	#SET MAX VALUE
 	curr = arr[i][j]
-	print "the clcs is: ", curr
+
 	if curr > maxLCS:
 		maxLCS = curr
 
@@ -112,7 +111,8 @@ def SingleShortestPath(A,B,mid,l,u):
 	A_str_curr = A[mid:mid+m]
 	print "Strings we are comparing:", A_str_curr, B
 
-	arr[mid - 1] = np.zeros(arraySize, dtype=int)
+	#this clears the row before
+	arr[mid-1] = np.zeros(arraySize, dtype=int)
 
 	for i in range(1,m +1):
 		#print "mid is: ", mid, "l is:", l, "u is:", u
@@ -121,18 +121,18 @@ def SingleShortestPath(A,B,mid,l,u):
 		#print "plRight:", plRight
 		#print "puLeft", puLeft
 
-		jrange = (1,n)
+		jrange = range(1,n)
 		index = mid + i
 
-		if index <= u and index >= l:
-			jrange = range(1,plRight + 1)
-		elif index > u and index > m:
-			jrange = range(puLeft,n + 1)
-		elif index > u:
-			jrange = range(puLeft, plRight + 1)
+		# if index <= u and index >= l:
+		# 	jrange = range(1,plRight + 1)
+		# elif index > u and index > m:
+		# 	jrange = range(puLeft,n + 1)
+		# elif index > u:
+		# 	jrange = range(puLeft, plRight + 1)
 #print "jrange is", jrange
 
-		for j in jrange:
+		for j in range(1,n+1):#jrange:
 			#print "j here is", j
 			#print "A", A[index -1]
 			#print "B", B[j-1]
@@ -143,11 +143,11 @@ def SingleShortestPath(A,B,mid,l,u):
 
 	print
 	print
-	print "array when we do our method AT mid =", mid, A[mid -1], "l is:", l, A[l-1], "u is:", u, A[u-1]
-	print arr[mid:mid + m]
+	#print "array when we do our method AT mid =", mid, A[mid], "l is:", l, A[l], "u is:", u, A[u]
+	#print arr[mid-1:mid + m]
 	print
 
-	return PathBacktrace(A,B, mid, l, u)
+	#return PathBacktrace(A,B, mid, l, u)
 
 # def FindShortestPath(A,B,p, l,u):
 def FindShortestPath(A,B, l,u):
@@ -155,13 +155,10 @@ def FindShortestPath(A,B, l,u):
 	if (u-l <= 1): 
 		return
 	mid = (l+u)/2 
-
-	#treat mid differently if it is even vs. odd
-	if mid%2 == 0:
-		mid = mid -1
+	print "the mid letter is", A[mid]
 
 	p[mid] = SingleShortestPath(A_double,B,mid,l,u)
-	FindShortestPath(A,B,l,mid)
+	#FindShortestPath(A,B,l,mid)
 	#FindShortestPath(A,B,mid,u)
 
 def ComputeP0_Pm(A,B):
@@ -190,13 +187,13 @@ def CLCSFast(A,B):
 	# print "the total path array is:"
 	# print p
 
-	#FindShortestPath(A,B,1,m)
+	FindShortestPath(A,B,0,m)
 	return maxLCS
 
 
 def main():
 	#print CLCSFast("ABGD", "ABCD")
-	print CLCSFast("ABGDE", "ABCDEF")
+	print CLCSFast("ABGD", "ABCD")
 	#print CLCSFast("C","CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD")
 	#print CLCSFast("EBADAEEABBBCEDE", "ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC")
 	#print CLCSFast("ACBBBCDCEDBADBBEABBEDAEADEBAEB", "AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC")
