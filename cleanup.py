@@ -2,7 +2,7 @@
 import sys
 import numpy as np
 
-arraySize = 100
+arraySize = 5000
 arr = np.zeros((2*arraySize,arraySize), dtype=int)
 
 p = [[[]]]
@@ -45,7 +45,7 @@ def PathBacktrace(A,B, mid, l, u, jrange_arr):
 
 	if curr > maxLCS:
 		maxLCS = curr
-		print maxLCS
+		print "Max LCS is", maxLCS
 
 
 	#iterate and find path
@@ -129,8 +129,6 @@ def SingleShortestPath(A,B,mid,l,u):
 
 
 	for i in range(1,m +1):
-		print "ENTERING LOOP! arr at i", i
-		print arr 
 		index = mid + i
 
 		leftBound = 1
@@ -153,7 +151,7 @@ def SingleShortestPath(A,B,mid,l,u):
 		#Store bounds into array and range for iteration
 		jrange = range(leftBound,rightBound + 1)
 		jrange_arr[i] = [leftBound, rightBound]
-		print "jrange is", jrange_arr
+		#print "jrange is", jrange_arr
 		#iterate through array to fill dynamic programming table arr
 		for j in jrange:
 
@@ -162,33 +160,32 @@ def SingleShortestPath(A,B,mid,l,u):
 
 				#if the diagonal is in the jrange, make the current arr[index][j] equal to 1 + the diagonal (NORMAL CASE)
 				if j-1 >= jrange_arr[i-1][0] and j-1 <= jrange_arr[i-1][1]:
-					print "case 1, match", A[index-1], B[j-1]
-					print "the array value am adding to is:", index-1, j-1
+					#print "case 1, match", A[index-1], B[j-1]
+					#print "the array value am adding to is:", index-1, j-1
 					arr[index][j] = arr[index-1][j-1]+1
 
 				#EDGE CASE: if diagonal is in 0s row, add 1
 				else:
 					arr[index][j] = arr[index][j-1] + 1
-					print "case 2"
+					#print "case 2"
 			
 			# If characters don't match
 			else:
 
 				#if the value above is in legal territory, take the max (NORMAL CASE)
-				print "j", j, "greater than", jrange_arr[i-1][0], "less than", jrange_arr[i-1][1]
+				#print "j", j, "greater than", jrange_arr[i-1][0], "less than", jrange_arr[i-1][1]
 				if j >= jrange_arr[i-1][0] and j <= jrange_arr[i-1][1]:
-					print "case 3"
+				#	print "case 3"
 					arr[index][j] = max(arr[index-1][j], arr[index][j-1])
 
 
 				#EDGE CASE: if there is no match and the top is out of bounds, set value = to the left node
 				else:
-					print "case 4"
+					#print "case 4"
 					arr[index][j] = arr[index][j-1]
-		print
-		print
 		
-		
+	#print "the array is"	
+	#print arr[mid:mid + m + 1]
 	return PathBacktrace(A,B, mid, l, u, jrange_arr)
 
 def FindShortestPath(A,B, l,u):
@@ -196,6 +193,8 @@ def FindShortestPath(A,B, l,u):
 	if (u-l <= 1): 
 		return
 	mid = (l+u)/2 
+
+	print "filling p of mid for mid", mid, "in string A, at char,", A[mid]
 
 	p[mid] = SingleShortestPath(A_double,B,mid,l,u)
 
@@ -244,8 +243,8 @@ def CLCSFast(A,B):
 
 def main():
 	#print CLCSFast("ABGD", "ABCD")
-	A = "ADCDEDC" 
-	B = "AECBABBBBDABBDBBEBDBCACDADEEDCCCAACDC"
+	A = "ABABB " 
+	B = "BBABABAAA"
 	print "for strings:", A, B, "the answer is", CLCSFast(A, B)
 
 
