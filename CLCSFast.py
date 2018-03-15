@@ -2,7 +2,7 @@
 import sys
 import numpy as np
 
-arraySize = 20
+arraySize = 500
 arr = np.zeros((2*arraySize,arraySize), dtype=int)
 
 p = [[[]]]
@@ -171,6 +171,7 @@ def CLCSFast(A,B):
 	n = len(B)
 
 	#initialize path array
+	arraySize = m
 	p = np.zeros((m+1,m+1,2), dtype=int)
 	arr = np.zeros((2*arraySize,arraySize), dtype=int)
 
@@ -183,13 +184,13 @@ def CLCSFast(A,B):
 
 def main():
 	#print CLCSFast("ABGD", "ABCD")
-	A = "BBAA"
-	B = "ABABB"
+	A = "ADCDEDC"
+	B = "AECBABBBBDABBDBBEBDBCACDADEEDCCCAACDC"
 	print "for strings:", A, B, "the answer is", CLCSFast(A, B)
 
-	print CLCSFast("C","CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD")
-	print CLCSFast("EBADAEEABBBCEDE", "ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC")
-	print CLCSFast("ACBBBCDCEDBADBBEABBEDAEADEBAEB", "AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC")
+	#print CLCSFast("C","CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD")
+	#print CLCSFast("EBADAEEABBBCEDE", "ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC")
+	#print CLCSFast("ACBBBCDCEDBADBBEABBEDAEADEBAEB", "AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC")
 
 
 if __name__ == '__main__':
